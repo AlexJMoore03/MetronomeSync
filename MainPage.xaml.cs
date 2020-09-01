@@ -36,7 +36,7 @@ namespace MetronomeApp
             else
             {
                 //Delays the first click by the remaining time until the next tick from the given Sync Code
-                int initialDelay = Convert.ToInt32(sync-((syncDateTime.ToOADate() - sync) * 86400000) % (60000 / tempo));
+                int initialDelay = Convert.ToInt32((60000 / tempo) - ((syncDateTime.ToOADate() - sync) * 86400000) % (60000 / tempo));
                 System.Threading.Thread.Sleep(initialDelay);
             }
             //Begins a timer that ticks according to the tempo (60000/tempo = ms/beat)
