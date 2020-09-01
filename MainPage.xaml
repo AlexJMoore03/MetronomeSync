@@ -6,7 +6,8 @@
              mc:Ignorable="d"
              BackgroundColor="Black"
              x:Class="MetronomeApp.MainPage">
-
+  
+    <!--Initializes the page elements to be used in MainPage.xaml.cs-->
     <StackLayout>
         <Label Text="Tempo (BPM)" 
             TextColor="White"/>
