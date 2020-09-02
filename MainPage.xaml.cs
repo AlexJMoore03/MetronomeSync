@@ -51,6 +51,8 @@ namespace MetronomeApp
                 tickSound.Load("Click.mp3");
                 soundLoaded = true;
             }
+            //Makes the delay happen asynchronously 
+            await Task.Yeld()
             Task.Delay(msDelay);
             if (stopped == false)
             {
