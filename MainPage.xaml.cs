@@ -25,7 +25,7 @@ namespace MetronomeApp
         bool soundLoaded = false;
         bool stopped = false;
 
-        public async void Handle_Metronome(double tempo, double sync)
+        public void Handle_Metronome(double tempo, double sync)
         {
             DateTime syncDateTime = DateTime.UtcNow;
             if (sync == 0)
@@ -40,10 +40,10 @@ namespace MetronomeApp
                 System.Threading.Thread.Sleep(initialDelay);
             }
             //Begins a loop that ticks according to the tempo (60000/tempo = ms/beat)
-            await MetronomeTick(60000/tempo);
+            MetronomeTick(60000/tempo);
         }
 
-        private void MetronomeTick(msDelay)
+        private async Task MetronomeTick(msDelay)
         {
             //Prevents needing to load the sound every time
             if (soundLoaded == false)
@@ -55,7 +55,7 @@ namespace MetronomeApp
             if (stopped == false)
             {
                 tickSound.Play();
-                MetronomeTick(msDelay);
+                await MetronomeTick(msDelay);
             }
             else
             {
