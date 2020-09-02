@@ -41,10 +41,10 @@ namespace MetronomeApp
             }
             //Begins a loop that ticks according to the tempo (60000/tempo = ms/beat)
             stopped = false;
-            MetronomeTick(60000/tempo);
+            MetronomeTick(Convert.ToInt32(60000 / tempo));
         }
 
-        private async Task MetronomeTick(msDelay)
+        private async Task MetronomeTick(int msDelay)
         {
             //Prevents needing to load the sound every time
             if (soundLoaded == false)
