@@ -21,11 +21,11 @@ namespace MetronomeApp
             InitializeComponent();
         }
 
-        Timer metronomeTimer = new Timer();
         ISimpleAudioPlayer tickSound = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
         bool soundLoaded = false;
+        bool stopped = false;
 
-        public void Handle_Metronome(double tempo, double sync)
+        public async void Handle_Metronome(double tempo, double sync)
         {
             DateTime syncDateTime = DateTime.UtcNow;
             if (sync == 0)
@@ -39,13 +39,11 @@ namespace MetronomeApp
                 int initialDelay = Convert.ToInt32((60000 / tempo) - ((syncDateTime.ToOADate() - sync) * 86400000) % (60000 / tempo));
                 System.Threading.Thread.Sleep(initialDelay);
             }
-            //Begins a timer that ticks according to the tempo (60000/tempo = ms/beat)
-            metronomeTimer.Interval = 60000 / tempo;
-            metronomeTimer.Elapsed += MetronomeTick;
-            metronomeTimer.Enabled = true;
+            //Begins a loop that ticks according to the tempo (60000/tempo = ms/beat)
+            MetronomeTick(60000/tempo);
         }
 
-        private void MetronomeTick(object sender, ElapsedEventArgs e)
+        private void MetronomeTick(msDelay)
         {
             //Prevents needing to load the sound every time
             if (soundLoaded == false)
@@ -53,7 +51,16 @@ namespace MetronomeApp
                 tickSound.Load("Click.mp3");
                 soundLoaded = true;
             }
-            tickSound.Play();
+            Task.Delay(msDelay);
+            if (stopped == false)
+            {
+                tickSound.Play();
+                MetronomeTick(msDelay);
+            }
+            else
+            {
+                stopped = false;
+            }
         }
 
         public void Handle_Start(object sender, System.EventArgs e)
@@ -88,7 +95,7 @@ namespace MetronomeApp
 
         public void Handle_Stop(object sender, System.EventArgs e)
         {
-            metronomeTimer.Enabled = false;
+            stopped = true;
         }
     }
 }
