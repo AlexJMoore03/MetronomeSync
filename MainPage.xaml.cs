@@ -23,7 +23,7 @@ namespace MetronomeApp
 
         ISimpleAudioPlayer tickSound = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
         bool soundLoaded = false;
-        bool stopped = false;
+        bool stopped = true;
 
         public void Handle_Metronome(double tempo, double sync)
         {
@@ -40,6 +40,7 @@ namespace MetronomeApp
                 System.Threading.Thread.Sleep(initialDelay);
             }
             //Begins a loop that ticks according to the tempo (60000/tempo = ms/beat)
+            stopped = false;
             MetronomeTick(60000/tempo);
         }
 
@@ -58,15 +59,11 @@ namespace MetronomeApp
                 tickSound.Play();
                 await MetronomeTick(msDelay);
             }
-            else
-            {
-                stopped = false;
-            }
         }
 
         public void Handle_Start(object sender, System.EventArgs e)
         {
-            if (metronomeTimer.Enabled == false)
+            if (stopped == true)
             {
                 string tempoString = TempoBox.Text;
                 //Makes sure tempo is a number
