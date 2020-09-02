@@ -40,7 +40,7 @@ namespace MetronomeApp
                 System.Threading.Thread.Sleep(initialDelay);
             }
             //Begins a loop that ticks according to the tempo (60000/tempo = ms/beat)
-            MetronomeTick(60000/tempo);
+            await MetronomeTick(60000/tempo);
         }
 
         private void MetronomeTick(msDelay)
